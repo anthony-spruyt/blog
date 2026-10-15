@@ -18,6 +18,10 @@ enableRobotsTXT = true
   ShowReadingTime = true
   ShowPostNavLinks = true
 
+  [params.label]
+    icon = "/favicon.svg"
+    iconHeight = 28
+
   [params.assets]
     theme_color = "#1d1e20"
     msapplication_TileColor = "#1d1e20"
