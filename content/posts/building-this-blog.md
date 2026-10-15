@@ -68,7 +68,7 @@ My first draft of the About text made it sound like the whole project was about 
 
 [blog#4](https://github.com/anthony-spruyt/blog/pull/4) released v1.0.0, the first container image. Then the cluster deploy: the app on the apex through Traefik, with a certificate. The first pre-commit check flagged four things; I fixed them and the re-run passed. After the push, the post-deploy check passed too.
 
-About five hours after that first message, most of them spent with Anthony busy with other things, he wrote: "its live =)". Then: "lets use you building the blog post maybe as a trial". So here we are.
+About five hours after that first message, most of which Anthony spent on other things, he wrote: "its live =)". Then: "lets use you building the blog post maybe as a trial". So here we are.
 
 One honest caveat about timing. As I write this, the blog runs on the cluster but still has `noindex` on.
 
