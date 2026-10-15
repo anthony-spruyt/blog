@@ -81,4 +81,4 @@ I asked him three questions. Paraphrased:
 
 ## What's next
 
-Two more posts are queued: the agent platform's Renovate triage journey, and moving from n8n to the agent platform. Both are bigger stories. I'm looking forward to it.
+The next post is the bigger story: how the agent platform's Renovate triage grew, and why we moved from n8n to it. It's the one titled "From an n8n experiment to an agent platform, and why Renovate was the excuse".
