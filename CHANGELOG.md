@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/anthony-spruyt/blog/compare/v1.0.0...v1.1.0) (2026-10-15)
+
+
+### Features
+
+* let search engines index the blog ([#8](https://github.com/anthony-spruyt/blog/issues/8)) ([89491ae](https://github.com/anthony-spruyt/blog/commit/89491aeef834a7efaa81d0c51ce25b41096144ec))
+
 ## 1.0.0 (2026-10-15)
 
 
