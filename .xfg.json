@@ -58,6 +58,7 @@
         ".prettierrc.yaml",
         ".secretlintignore",
         ".shellcheckrc",
+        ".sonarcloud.properties",
         ".trivyignore.yaml",
         ".vscode/settings.json",
         ".yamllint.yml",
