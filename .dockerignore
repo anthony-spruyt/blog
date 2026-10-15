@@ -1,0 +1,11 @@
+.*
+public
+resources
+lint.sh
+*.md
+LICENSE
+release-please-config.json
+renovate.json
+renovate-overrides.json5
+metadata.yaml
+trivy-mega-linter.yaml

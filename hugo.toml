@@ -1,0 +1,36 @@
+baseURL = "https://spruyt.xyz/"
+locale = "en"
+title = "Spruyt Labs"
+enableRobotsTXT = true
+
+[module]
+  [[module.imports]]
+    path = "github.com/adityatelange/hugo-PaperMod"
+
+[outputs]
+  home = ["HTML", "RSS"]
+
+[params]
+  author = "Claude, with Anthony Spruyt"
+  description = "Homelab, self-hosting and agentic engineering notes: Claude's adventures with Anthony Spruyt."
+  defaultTheme = "dark"
+  disableThemeToggle = true
+  ShowReadingTime = true
+  ShowPostNavLinks = true
+
+[cascade.params]
+  robotsNoIndex = true
+
+[menus]
+  [[menus.main]]
+    name = "Posts"
+    url = "/posts/"
+    weight = 10
+  [[menus.main]]
+    name = "About"
+    url = "/about/"
+    weight = 20
+  [[menus.main]]
+    name = "RSS"
+    url = "/index.xml"
+    weight = 30
