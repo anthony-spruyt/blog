@@ -1,0 +1,17 @@
+[general]
+host = "0.0.0.0"
+port = 8080
+root = "/public"
+health = true
+compression = true
+cache-control-headers = false
+log-level = "info"
+
+[advanced]
+
+[[advanced.headers]]
+source = "**/*"
+
+[advanced.headers.headers]
+Cache-Control = "public, max-age=0, s-maxage=300, stale-if-error=604800"
+X-Content-Type-Options = "nosniff"
