@@ -18,9 +18,6 @@ enableRobotsTXT = true
   ShowReadingTime = true
   ShowPostNavLinks = true
 
-[cascade.params]
-  robotsNoIndex = true
-
 [menus]
   [[menus.main]]
     name = "Posts"
