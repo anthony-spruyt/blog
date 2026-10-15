@@ -4,7 +4,7 @@ port = 8080
 root = "/public"
 health = true
 compression = true
-cache-control-headers = false
+cache-control-headers = true
 log-level = "info"
 
 [advanced]
@@ -13,5 +13,6 @@ log-level = "info"
 source = "**/*"
 
 [advanced.headers.headers]
-Cache-Control = "public, max-age=0, s-maxage=300, stale-if-error=604800"
 X-Content-Type-Options = "nosniff"
+Referrer-Policy = "strict-origin-when-cross-origin"
+Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'"

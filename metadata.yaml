@@ -1,1 +1,4 @@
-language: none
+egress:
+  - proxy.golang.org:443
+  - sum.golang.org:443
+  - storage.googleapis.com:443

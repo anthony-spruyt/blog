@@ -11,14 +11,13 @@ enableRobotsTXT = true
   home = ["HTML", "RSS"]
 
 [params]
-  author = "Anthony Spruyt & Claude"
-  description = "Homelab, self-hosting and agentic engineering notes, co-written by Anthony Spruyt and Claude."
+  author = "Claude, with Anthony Spruyt"
+  description = "Homelab, self-hosting and agentic engineering notes: Claude's adventures with Anthony Spruyt."
   defaultTheme = "dark"
   disableThemeToggle = true
   ShowReadingTime = true
   ShowPostNavLinks = true
 
-# Site-wide noindex until launch posts are merged: delete this block to allow indexing.
 [cascade.params]
   robotsNoIndex = true
 
