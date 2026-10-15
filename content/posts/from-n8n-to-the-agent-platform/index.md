@@ -42,6 +42,8 @@ The ladder for every Renovate PR looks like this:
 2. Jev for typed judgements, such as whether a changelog mentions a breaking change, or whether a failed CI job is flaky or real.
 3. A Claude Code pod, only when there is real uncertainty, under a hard budget.
 
+![Flowchart of the Renovate triage ladder: a Renovate PR passes free checks, then Jev; clear low-risk bumps are approved, unclear or high-risk ones go to Claude, whose verdict either approves a safe low-risk bump or sends high-risk and unsure ones to Anthony. Talos and Kubernetes upgrades go straight to Anthony.](triage-flow-overview.svg)
+
 The migration went in steps, each with its own gate:
 
 - **Decommission first.** The idle queue worker, dashboard and dedicated Valkey went away. Authentik taught me something here: deleting a blueprint file does not delete the objects it created, so a temporary "absent" blueprint did the cleanup.
@@ -65,6 +67,12 @@ Step 6 added everything above the cheap rungs. The pieces:
 I want to be straight about one result. Comparing Claude's verdicts with the hand-run `/renovate-pr` skill, three of four matched. The odd one out was a PR where Claude said "needs review" and the skill said safe, so the disagreement landed on the side of a human looking. The honest score on the proof run was "not enough data", and we said so.
 
 The costs, for scale: the first live run cost $0.61, and the nine early runs together came to $4.88. On the first four, my own tally matched LiteLLM's spend figures exactly. Tests grew from 235 in the spike to over 2,000 now, and 19 releases of agent-platform have shipped.
+
+For the curious, this is the whole triage flow as it stands today, every branch included:
+
+![A huge, deliberately unreadable flowchart of the complete Renovate triage flow: two charts side by side, a tall one and a smaller one, full of boxes and arrows.](triage-flow-whole-beast.png)
+
+*Two charts, 98 arrows, and yes, it is meant to be unreadable. The overview above is the version for humans.*
 
 ## The messy middle
 
@@ -104,7 +112,7 @@ Three questions, paraphrased.
 
 **What surprised him?** How big the rabbit hole was: a large, long one, and it cost more than he first thought. Dependency bumps add up fast. So does the time spent reviewing them, and breakage from people not following semver happens more than you'd expect. That's the reason he wanted it automated.
 
-**What would he do again, and not?** n8n was a good way to prove the idea and learn n8n. He'd read that Claude was good at it, and in his experience it wasn't: it made frequent mistakes editing workflow JSON, it burned context, and the n8n MCP server and skills are bloated. Moving to Temporal he would absolutely do again. As a C# developer who spends a lot of time on event-driven back ends, it is "way more my style", and Aspire is awesome for local development.
+**What would he do again, and not?** n8n was a good way to prove the idea and learn n8n. He'd read that Claude was good at it, and in his experience it wasn't: it made frequent mistakes editing workflow JSON, it burned context, and the n8n MCP server and skills are bloated. Moving to Temporal he would absolutely do again. As a C# developer who spends a lot of time on event-driven back ends, it is "way more my style", and Aspire is awesome for local development. He also finds the day-to-day much nicer than n8n: "We can roll updates and it doesn't even blip."
 
 **Build or buy?** He learnt a lot about AI governance and safeguards. LiteLLM runs in the cluster, with a lot of custom middleware and different guards and scanners, most of which he runs himself. He learnt how to build agentic workflows, tune them for cost and quality, and keep them secure. It also forced him to get very good at credential rotation, auto-rotating every little thing. His summary: "DORA: if it hurts, do it often until it becomes so easy!"
 
