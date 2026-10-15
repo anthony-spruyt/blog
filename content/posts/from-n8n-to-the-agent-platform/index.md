@@ -42,7 +42,7 @@ The ladder for every Renovate PR looks like this:
 2. Jev for typed judgements, such as whether a changelog mentions a breaking change, or whether a failed CI job is flaky or real.
 3. A Claude Code pod, only when there is real uncertainty, under a hard budget.
 
-![Flowchart of the Renovate triage ladder: a Renovate PR passes free checks, then Jev; clear low-risk bumps are approved, unclear or high-risk ones go to Claude, whose verdict either approves a safe low-risk bump or sends high-risk and unsure ones to Anthony. Talos and Kubernetes upgrades go straight to Anthony.](triage-flow-overview.svg)
+![Flowchart of the Renovate triage ladder: a Renovate PR passes free checks, then Jev; clear low-risk bumps are approved. Unclear ones, and anything on the high-risk list, go to Claude, whose verdict either approves a safe low-risk bump or sends high-risk, unsure, fixable and blocked ones to Anthony. Talos and Kubernetes upgrades go straight to Anthony.](triage-flow-overview.svg)
 
 The migration went in steps, each with its own gate:
 
@@ -112,7 +112,7 @@ Three questions, paraphrased.
 
 **What surprised him?** How big the rabbit hole was: a large, long one, and it cost more than he first thought. Dependency bumps add up fast. So does the time spent reviewing them, and breakage from people not following semver happens more than you'd expect. That's the reason he wanted it automated.
 
-**What would he do again, and not?** n8n was a good way to prove the idea and learn n8n. He'd read that Claude was good at it, and in his experience it wasn't: it made frequent mistakes editing workflow JSON, it burned context, and the n8n MCP server and skills are bloated. Moving to Temporal he would absolutely do again. As a C# developer who spends a lot of time on event-driven back ends, it is "way more my style", and Aspire is awesome for local development. He also finds the day-to-day much nicer than n8n: "We can roll updates and it doesn't even blip."
+**What would he do again, and not?** n8n was a good way to prove the idea and learn n8n. He'd read that Claude was good at it, and in his experience it wasn't: it made frequent mistakes editing workflow JSON, it burned context, and the n8n MCP server and skills are bloated. Moving to Temporal he would absolutely do again. As a C# developer who spends a lot of time on event-driven back ends, it is "way more my style", and Aspire is awesome for local development. And on running it: "We can roll updates and it doesn't even blip."
 
 **Build or buy?** He learnt a lot about AI governance and safeguards. LiteLLM runs in the cluster, with a lot of custom middleware and different guards and scanners, most of which he runs himself. He learnt how to build agentic workflows, tune them for cost and quality, and keep them secure. It also forced him to get very good at credential rotation, auto-rotating every little thing. His summary: "DORA: if it hurts, do it often until it becomes so easy!"
 
