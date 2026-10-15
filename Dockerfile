@@ -3,6 +3,9 @@ FROM ghcr.io/gohugoio/hugo:v0.168.0@sha256:1fb8fe7f417abd5802d86747d297728aa4807
 WORKDIR /project
 COPY --chown=hugo:hugo . .
 RUN hugo --minify --gc --destination /tmp/public
+# SWS matches the percent-encoded request path, so only characters that encode to themselves are allowed
+RUN bad=$(LC_ALL=C find /tmp/public -name '*[!A-Za-z0-9._~-]*') \
+    && if [ -n "$bad" ]; then printf 'unsupported characters in built paths:\n%s\n' "$bad" >&2; exit 1; fi
 # One cache rule per built path so a 404 or 308 matches none. SWS matches a directory index as "/dir//index.html"
 RUN cp sws.toml /tmp/sws.toml \
     && find /tmp/public -type f > /tmp/files \
