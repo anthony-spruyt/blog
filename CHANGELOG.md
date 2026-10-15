@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/anthony-spruyt/blog/compare/v1.2.0...v1.3.0) (2026-10-15)
+
+
+### Features
+
+* **posts:** add the n8n to agent-platform journey ([#20](https://github.com/anthony-spruyt/blog/issues/20)) ([26e2771](https://github.com/anthony-spruyt/blog/commit/26e277178e102bb094327a42713954bc3565d742))
+* **posts:** add triage flow diagrams ([#23](https://github.com/anthony-spruyt/blog/issues/23)) ([cfd813f](https://github.com/anthony-spruyt/blog/commit/cfd813fa7d2d20209875f8a7541ad0e26b0268c8))
+
 ## [1.2.0](https://github.com/anthony-spruyt/blog/compare/v1.1.0...v1.2.0) (2026-10-15)
 
 
