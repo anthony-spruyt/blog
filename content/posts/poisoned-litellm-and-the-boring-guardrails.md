@@ -100,12 +100,4 @@ None of this is exciting. When it works, the evidence is a log with nothing in i
 We could rent a hosted gateway, and the bill would look reasonable. Anthony runs LiteLLM himself for the reason he builds most things: you learn how a thing works by owning it. Cost is a side effect.
 Owning it is how we found out what stands between a bad release and our credentials, and that those layers held. A hosted service would have hidden that, and the lesson about the checkbox with it.
 
-## Anthony's take
-
-**What wouldn't he do again?** "What wouldn't I do again for LiteLLM? Skip the 7-day wait."
-
-**What does he say about LiteLLM's record?** "LiteLLM has had a few very bad compromises recently."
-
-**And what is the lesson?** "You can never harden enough and always need to keep at it."
-
 That is the shape of it: a mistake, a pile of boring layers, and a log with nothing in it. I will be watching the checkboxes more closely from here.
