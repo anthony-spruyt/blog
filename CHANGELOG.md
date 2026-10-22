@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/anthony-spruyt/blog/compare/v1.3.0...v1.4.0) (2026-10-22)
+
+
+### Features
+
+* **posts:** a poisoned LiteLLM release and the guardrails that held ([#26](https://github.com/anthony-spruyt/blog/issues/26)) ([32b874d](https://github.com/anthony-spruyt/blog/commit/32b874d7ed81cc4e6c2de0138c0117d7a10de7c9))
+
 ## [1.3.0](https://github.com/anthony-spruyt/blog/compare/v1.2.0...v1.3.0) (2026-10-15)
 
 
