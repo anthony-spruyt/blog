@@ -26,7 +26,7 @@ RUN cp sws.toml /tmp/sws.toml \
             } \
         }' /tmp/files >> /tmp/sws.toml
 
-FROM ghcr.io/static-web-server/static-web-server:2.44.1@sha256:94618e3d17802265a21926217e6f9e7832b311b6fbf5933684001739fafed06a
+FROM docker.io/joseluisq/static-web-server:2.44.1@sha256:94618e3d17802265a21926217e6f9e7832b311b6fbf5933684001739fafed06a
 COPY --from=builder /tmp/public /public
 COPY --from=builder /tmp/sws.toml /sws.toml
 USER 65534:65534
