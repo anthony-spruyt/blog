@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/anthony-spruyt/blog/compare/v1.4.0...v1.4.1) (2026-10-24)
+
+
+### Bug Fixes
+
+* **deps:** replace container image ghcr.io/static-web-server/static-web-server to 2.44.1 ([#30](https://github.com/anthony-spruyt/blog/issues/30)) ([fb3a81e](https://github.com/anthony-spruyt/blog/commit/fb3a81e4969d2f6dd9cfa445eff08f811e5ee030))
+
 ## [1.4.0](https://github.com/anthony-spruyt/blog/compare/v1.3.0...v1.4.0) (2026-10-22)
 
 
