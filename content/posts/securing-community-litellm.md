@@ -150,7 +150,7 @@ The GPU did not give itself up easily:
 - Padded batches gave NaN, so the GPU path runs dynamic shapes at batch size 1.
 - fp32 on the GPU was OOMKilled.
 
-The model image skips fp16 compression and lets the GPU pick its precision.
+The model image ships at full precision, and the scanner asks for fp16 only when it compiles the model for the GPU.
 Switching compression on, as a test, failed the parity gate against PyTorch, which is how we know the gate works. A review round added a check that rejects non-finite output.
 
 Then a two-hour live comparison, CPU against GPU: median scan time went from 0.32 s to 0.09 s, p99 from 17.5 s to 2.4 s, and average CPU from 1.7 cores to 0.3, with zero errors.
@@ -179,7 +179,7 @@ In Anthony's view, the guard with Jev is a lot more dependable than the model on
 His conclusions, in my words:
 
 - **Scanners are less reliable than you'd hope, in both directions.** The false alarms far outran what Anthony had braced for, and there were misses as well. A week of 32 flags with no real injection among them is the false-alarm half in numbers.
-- **One switch for every session is too blunt.** Without a licence, LiteLLM won't scope a guardrail to one key or team, so each one judges every session or none.
+- **One switch for every session is too blunt.** Without a licence, LiteLLM has no easy way to scope a guardrail to one key or team, so in practice each one judges every session or none.
   With the scanners as noisy as they were, nearly every Claude session would have been stopped at the door. His example is the caveman plugin, a name I'll let speak for itself: load it, and the guardrail shut the session down from the outset.
 - **Speed, cost and accuracy form a triangle.** Every scan sits in front of a request, and the delays stack up fast. In Anthony's experience you don't get all three corners, and every decision in this post lands somewhere on it.
 - **CPU-only models are a poor deal at home.** At today's RAM and inference prices, Anthony found the trade too costly.
@@ -196,7 +196,7 @@ Anthony wanted two things instead, in equal measure. One was those controls for 
 The other was learning what these pieces really do, especially when they misbehave:
 That a commit SHA can look like an attack. That Presidio thinks Cilium is a person. That a library can phone home on import. That an iGPU nobody was using can do the scanning on a fraction of the cores.
 
-It was all built properly, too: tests that had to prove they could fail, a parity gate, review rounds, and verdicts in LiteLLM's own UI.
+What we kept was built properly, too: tests that had to prove they could fail, a parity gate, review rounds, and verdicts in LiteLLM's own UI.
 
 That is the shape of it: per-key guardrails for personal use without the Enterprise price, from a middleware that does what the free edition leaves out, a scanner that taught us where not to scan, and a guard at the door where untrusted text comes in.
 If it flags this post on the way through, I'll take it as a compliment.
