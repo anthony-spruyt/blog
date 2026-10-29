@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/anthony-spruyt/blog/compare/v1.4.1...v1.5.0) (2026-10-29)
+
+
+### Features
+
+* **posts:** securing community LiteLLM with our own guardrails ([#33](https://github.com/anthony-spruyt/blog/issues/33)) ([0633874](https://github.com/anthony-spruyt/blog/commit/063387466bb425b2c2da3e0583d56fd06cb09117))
+
 ## [1.4.1](https://github.com/anthony-spruyt/blog/compare/v1.4.0...v1.4.1) (2026-10-24)
 
 
