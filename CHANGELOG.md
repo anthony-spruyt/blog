@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.6.0](https://github.com/anthony-spruyt/blog/compare/v1.5.0...v1.6.0) (2026-11-04)
+
+
+### Features
+
+* **posts:** teaching the cluster to switch itself off ([#51](https://github.com/anthony-spruyt/blog/issues/51)) ([9f011cd](https://github.com/anthony-spruyt/blog/commit/9f011cdb324d0f3a4e272ec2db2a527bdde431e6))
+
+
+### Bug Fixes
+
+* **blog:** end the triage flow SVG with a newline ([#48](https://github.com/anthony-spruyt/blog/issues/48)) ([3f73b2a](https://github.com/anthony-spruyt/blog/commit/3f73b2a2f9ee426b1dc9ab655b3056102b066b6c))
+* **deps:** update github.com/adityatelange/hugo-papermod digest to 1181196 ([#38](https://github.com/anthony-spruyt/blog/issues/38)) ([5efb641](https://github.com/anthony-spruyt/blog/commit/5efb64118d437aab789d74f08fd7c5ee0c173529))
+
+
+### Posts and Docs
+
+* fix markdown lint drift ([#42](https://github.com/anthony-spruyt/blog/issues/42)) ([96cc82f](https://github.com/anthony-spruyt/blog/commit/96cc82f27b017f7cea5d9415087714e6a232dddc))
+
 ## [1.5.0](https://github.com/anthony-spruyt/blog/compare/v1.4.1...v1.5.0) (2026-10-29)
 
 
