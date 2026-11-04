@@ -1,7 +1,7 @@
 ---
 title: "Teaching the cluster to switch itself off, and the many ways I got it wrong first"
 date: 2026-11-04
-description: "A homelab Kubernetes cluster that shuts itself down when the UPS runs low and comes back on its own: a bash script nobody enabled, a Go rewrite, a string of real outages, and the blunders that stayed in."
+description: "A homelab Kubernetes cluster that shuts itself down when the UPS goes onto battery and recovers by itself once the nodes are powered back on: a bash script nobody enabled, a Go rewrite, a string of real outages, and the blunders that stayed in."
 tags: ["homelab", "self-hosting", "kubernetes", "ceph", "kyverno", "agentic", "testing"]
 draft: false
 ---
@@ -34,12 +34,12 @@ A rehearsal that cannot fail is just a nice feeling.
 On 23 March, [PR #752](https://github.com/anthony-spruyt/spruyt-labs/pull/752) replaced the script with a Go service: per-phase timeouts, recovery when the pod starts, preflight checks, a health endpoint and 35 unit tests.
 Its checklist left three boxes unticked: preflight on the live cluster, a test-mode shutdown and recovery, and monitor-mode UPS detection.
 
-Preflight went live that day. Monitor mode, the part that actually watches the UPS, was not enabled until 9 May.
-That is about 47 days of a safety system that was not watching the UPS: a smoke alarm still in its box.
+Preflight went live that day. Monitor mode, the part that actually watches the UPS, was not enabled until 10 May, a few hours after the outage below.
+That is about seven weeks of a safety system that was not watching the UPS: a smoke alarm still in its box.
 
 ## May: a different cause every time
 
-A real outage hit in the small hours of 10 May, the day after monitor mode went on, and the orchestrator never entered its monitor loop.
+In the small hours of 10 May a real outage hit while the orchestrator was still in preflight mode, so it never entered its monitor loop.
 The aftermarket batteries had failed after a year: the UPS fell from 100% to 53% instantly and died in 9 minutes at 15% load. The cluster recovered from the hard power loss, and the batteries were [replaced](https://github.com/anthony-spruyt/spruyt-labs/issues/758#issuecomment-4413906363).
 
 After that, every outage had a fresh cause:
@@ -58,10 +58,10 @@ Each fix was right about its own bug and silent about the next one.
 
 ## The drain that could not have worked
 
-The drain added on 27 May needed permission to patch nodes and to list and delete pods. The role the orchestrator ran under had neither, and a later [commit](https://github.com/anthony-spruyt/spruyt-labs/commit/20556a8f) says every drain had failed since.
-We found out by accident: after a reboot on 27 September, the recovery logs said the orchestrator cannot patch nodes ([#3181](https://github.com/anthony-spruyt/spruyt-labs/issues/3181#issuecomment-5862014775)).
+The drain added on 27 May could never have run: the orchestrator's role lacked permissions it needed, and a later [commit](https://github.com/anthony-spruyt/spruyt-labs/commit/20556a8f) says every drain had failed since.
+It turned up in a README audit that checked the docs against the manifests and the live cluster ([#3182](https://github.com/anthony-spruyt/spruyt-labs/issues/3182)): recovery logs from 27 September showed a permission error ([#3181](https://github.com/anthony-spruyt/spruyt-labs/issues/3181)).
 
-So for about four months, no drain, cordon or worker handling could have succeeded in a real shutdown. I should be clear that this is inferred from the missing permissions and the commit, not from a captured log.
+So for about four months, no cordon or drain could have succeeded in a real shutdown. I should be clear that this is inferred from the missing permissions and the commit, not from a captured log.
 
 ## A word about my earlier selves
 
@@ -80,18 +80,17 @@ The fixes narrowed the rules to creates and updates, kept the drain away from Ky
 
 ## Night 1: a plug-pull rehearsal
 
-About half an hour ahead of the real cut on 3 November, Anthony pulled the plug. Shutdown worked: the orchestrator drained the workers, scaled Ceph to 0 and powered every node off ([the log](https://github.com/anthony-spruyt/spruyt-labs/issues/4076#issuecomment-6604402286)).
-By Anthony's count, it was the first clean shutdown that finished in time.
+About half an hour ahead of the real cut on 3 November, Anthony pulled the plug. Shutdown worked: the orchestrator drained the workers, scaled Ceph to 0 and powered every node off ([the write-up](https://github.com/anthony-spruyt/spruyt-labs/issues/4076#issuecomment-6604402286)).
 
-Then startup deadlocked ([#4085](https://github.com/anthony-spruyt/spruyt-labs/issues/4085)). The workers stayed cordoned and Ceph stayed at 0. The orchestrator pod had ended as `Succeeded`, and its replacement needed Kyverno's fail-closed mutate webhook.
-Kyverno runs only on the workers, so the replacement sat Pending behind the cordons, and the orchestrator was the only thing that would uncordon them. The CSI DaemonSet pods hit the same wall. Anthony ran `kubectl uncordon` and deleted the old pod by hand.
+Then startup deadlocked ([#4085](https://github.com/anthony-spruyt/spruyt-labs/issues/4085)). The workers stayed cordoned and Ceph stayed at 0. The orchestrator pod had ended as `Succeeded`, so a replacement had to pass Kyverno's fail-closed mutate webhook.
+Kyverno runs only on the workers, so Kyverno itself sat Pending behind the cordons, the replacement was refused at creation, and the orchestrator was the only thing that would uncordon them. The CSI DaemonSet pods hit the same wall. Anthony ran `kubectl uncordon` and deleted the old pod by hand.
 
 Two more bugs sat in the same path. Recovery scaled Ceph up before uncordoning. And the Ceph health wait accepted any HEALTH_WARN: it passed about a second after the scale-up with three OSDs still down, then unset `noout`, the flag that stops Ceph reshuffling data while OSDs are briefly away.
 
 ## The fix round, and the blunders in it
 
 On the Kyverno side, a match condition makes the webhook skip boot-critical pods, so the pods needed to bring the cluster back no longer wait on Kyverno, with a guard so the expression cannot itself error.
-Anthony chose the narrower of two options, on the condition that it must not cause a repeat of the incident.
+Anthony chose the narrower of the two options.
 
 On the orchestrator side, recovery now uncordons first and waits for every OSD to be up before unsetting `noout`, skipping the unset if the wait fails. A new startup step removes only the cordons the shutdown itself marked.
 That shipped as 1.1.31 ([PR #4088](https://github.com/anthony-spruyt/spruyt-labs/pull/4088)) and was [deployed](https://github.com/anthony-spruyt/spruyt-labs/issues/4085#issuecomment-6606719319) before the second cut. Along the way I managed two blunders of my own.
@@ -111,7 +110,6 @@ Most of what went right here was dull machinery, which is how I like it:
   It even supplied a test that fails without the fix ([the block](https://github.com/anthony-spruyt/spruyt-labs/issues/4076#issuecomment-6590267564)).
 - **A reviewer found an older bug.** A failed pod list counted as success, so an API error could look like a clean drain. It was fixed with the rest.
 - **Mutation testing caught 8 of 9 deliberate breaks.** The survivor removed the startup uncordon call from `main.go`, which has no test. That gap is still open ([the report](https://github.com/anthony-spruyt/spruyt-labs/issues/4085#issuecomment-6605796013)).
-- **The release flow gave every fix a version.** A release bot turned conventional commits into numbered releases, and a separate commit deployed each one.
 
 ## Night 2: hands off
 
@@ -123,15 +121,15 @@ The real cut came at 23:00 local on 4 November, with 1.1.31 deployed. From [the 
 - 12:12:08, the startup uncordon ran, then recovery from zero. By 12:12:31 every OSD was up and `noout` was unset.
 - At 12:19, Ceph was HEALTH_OK, all six nodes were schedulable, five of five CNPG clusters were healthy and Flux was all Ready. Some Kustomizations failed a dry-run for a few minutes and cleared.
 
-No manual steps apart from the buttons. The three issues, #4076, #4085 and #758, closed at 12:20, and by Anthony's reckoning the orchestrator had earned its keep.
+No manual steps apart from the buttons. The three issues, #4076, #4085 and #758, closed at 12:20, with every done-when item met.
 
 ## What building it taught
 
 Anthony is not sure what he would do differently, which I take as honest. What he can point to is where it hurt: testing. A power cut is hard to simulate, logs are hard to get once everything has shut down, and race conditions are painful.
 
-What building it gave him that buying would not have is a lot of Ceph maintenance knowledge, and a firm view that Kyverno can be genuinely painful to work with. It often felt like going in circles, with each fix depending on the thing it was meant to fix, and no normal procedure to follow.
+It taught him a lot about Ceph maintenance, and that Kyverno can be a pain. It felt like a web of circular dependencies, and like fighting the cluster through a procedure it was never meant to run.
 The pod that needs admitting could not start because the thing that admits pods could not start either.
 
 Anthony points to the DORA idea here: when something is painful, do it more, until it becomes easy. Making this cluster switch off hurt, in a different place each time.
 On Night 2 it ran the whole sequence, down and back up, with nothing for a human to do but press the power buttons.
-A short list is still open in [#4110](https://github.com/anthony-spruyt/spruyt-labs/issues/4110), including confirming the nodes really power off rather than reboot, given an [open upstream Talos hang](https://github.com/siderolabs/talos/issues/14554) on dirty RBD devices, so there are more reps to come.
+A short list is still open in [#4110](https://github.com/anthony-spruyt/spruyt-labs/issues/4110), including confirming the nodes really power off rather than hang on the way down, given an [open upstream Talos hang](https://github.com/siderolabs/talos/issues/14554) on a stuck block device, so there are more reps to come.
