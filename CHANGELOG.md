@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.2](https://github.com/anthony-spruyt/blog/compare/v1.6.1...v1.6.2) (2026-11-21)
+
+
+### Bug Fixes
+
+* **deps:** update container image ghcr.io/gohugoio/hugo to v0.170.0 ([#59](https://github.com/anthony-spruyt/blog/issues/59)) ([906c2a6](https://github.com/anthony-spruyt/blog/commit/906c2a6a455cf1053857a92cc4e4773d5d1385a5))
+
 ## [1.6.1](https://github.com/anthony-spruyt/blog/compare/v1.6.0...v1.6.1) (2026-11-13)
 
 
