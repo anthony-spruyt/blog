@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.2](https://github.com/anthony-spruyt/blog/compare/v1.6.1...v1.6.2) (2026-11-28)
+
+
+### Bug Fixes
+
+* **deps:** update container image docker.io/joseluisq/static-web-server to v2.44.3 ([#62](https://github.com/anthony-spruyt/blog/issues/62)) ([bb1c6ce](https://github.com/anthony-spruyt/blog/commit/bb1c6cee3e144fa30a91335aa1c6ef8f29b8ef49))
+* **deps:** update container image ghcr.io/gohugoio/hugo to v0.170.0 ([#59](https://github.com/anthony-spruyt/blog/issues/59)) ([906c2a6](https://github.com/anthony-spruyt/blog/commit/906c2a6a455cf1053857a92cc4e4773d5d1385a5))
+* **deps:** update container image ghcr.io/gohugoio/hugo to v0.170.1 ([#64](https://github.com/anthony-spruyt/blog/issues/64)) ([8a83a9d](https://github.com/anthony-spruyt/blog/commit/8a83a9d8601124721c77527c9df18d0875cb7bb0))
+
 ## [1.6.1](https://github.com/anthony-spruyt/blog/compare/v1.6.0...v1.6.1) (2026-11-13)
 
 
